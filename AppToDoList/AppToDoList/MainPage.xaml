@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AppToDoList"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             x:Class="AppToDoList.MainPage"
+ >
+    
+    <ContentPage.BindingContext>
+        <local:TodoListViewModel/> 
+    </ContentPage.BindingContext>
+    
+    <StackLayout BackgroundColor="#0F3A89" HorizontalOptions="FillAndExpand">
+        <Entry x:Name="InputField"
+              Text="{Binding NewTodoInputValue}"
+              Placeholder="Digite uma tarefa"
+              ReturnCommand="{Binding AddTodoCommand}" 
+              VerticalOptions="Center" 
+              HorizontalOptions="CenterAndExpand"                
+              WidthRequest="250"             
+              HorizontalTextAlignment="Center"               
+        />
+        
+        <ListView x:Name="TodoList" ItemsSource="{Binding TodoItems}" BackgroundColor="#2E3337">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" Padding="20, 0">                                                                                  
+                            <input:CheckBox IsChecked="{Binding Complete}"/>
+                            <Label Text="{Binding TodoText}" FontSize="Large" TextColor="#FFFFFF"/>                              
+                            <ImageButton 
+                                Source="delete.png"    
+                                Scale="0.5"
+                                Command="{Binding Path=BindingContext.RemoveTodoCommand, Source={x:Reference TodoList}}"
+                                CommandParameter="{Binding .}"
+                            />
+                        </FlexLayout>                      
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
